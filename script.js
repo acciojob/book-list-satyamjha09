@@ -1,35 +1,34 @@
-//your JS code here. If required. document.getElementById('submit').addEventListener('click', function () {
-      const title = document.getElementById('title').value;
-      const author = document.getElementById('author').value;
-      const isbn = document.getElementById('isbn').value;
+document.getElementById("submit").addEventListener("click", function () {
+    let title = document.getElementById("title").value.trim();
+    let author = document.getElementById("author").value.trim();
+    let isbn = document.getElementById("isbn").value.trim();
 
-      if (title && author && isbn) {
-        const tableBody = document.getElementById('book-list');
+    if (title === "" || author === "" || isbn === "") {
+        alert("Please fill in all fields.");
+        return;
+    }
 
-        // Create a new row
-        const newRow = document.createElement('tr');
+    let list = document.getElementById("book-list");
+    let row = document.createElement("tr");
 
-        // Create cells and append data
-        newRow.innerHTML = `
-          <td>${title}</td>
-          <td>${author}</td>
-          <td>${isbn}</td>
-          <td><span class="delete">Clear</span></td>
-        `;
+    row.innerHTML = `
+        <td>${title}</td>
+        <td>${author}</td>
+        <td>${isbn}</td>
+        <td><button class="delete btn btn-danger btn-sm">Clear</button></td>
+    `;
 
-        // Add event listener to the "Clear" button
-        newRow.querySelector('.delete').addEventListener('click', function () {
-          tableBody.removeChild(newRow);
-        });
+    list.appendChild(row);
 
-        // Append the new row to the table
-        tableBody.appendChild(newRow);
+    // Clear input fields after adding
+    document.getElementById("title").value = "";
+    document.getElementById("author").value = "";
+    document.getElementById("isbn").value = "";
+});
 
-        // Clear the input fields
-        document.getElementById('title').value = '';
-        document.getElementById('author').value = '';
-        document.getElementById('isbn').value = '';
-      } else {
-        alert('Please fill in all the fields.');
-      }
-    });
+// Remove book entry on clicking "Clear"
+document.getElementById("book-list").addEventListener("click", function (e) {
+    if (e.target.classList.contains("delete")) {
+        e.target.parentElement.parentElement.remove();
+    }
+});
